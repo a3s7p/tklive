@@ -1,0 +1,19 @@
+#!/bin/bash -ex
+
+# $DIFFOSCOPE_OPTS are applied if present
+
+mkdir -p logs
+lb build noauto --verbose --debug "${@}" 2>&1 | tee logs/lb-build.log
+
+if [[ -n "$TKLIVE_DIFFOSCOPE" ]]; then
+    diffoscope \
+    --text-color=always \
+    --exclude='*.c32' \
+    --exclude='*.bin' \
+    --exclude='boot.cat' \
+    ${DIFFOSCOPE_OPTS} \
+    ../build/product.iso \
+    turnkey-*.hybrid.iso \
+    | tee logs/diffoscope-output.txt
+fi
+

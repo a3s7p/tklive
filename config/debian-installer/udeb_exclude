@@ -1,0 +1,244 @@
+# this is the unfortunate consequence
+# of the unnatural approach of d-i
+# one needs to exclude everything unneeded
+# instead of including everything needed
+
+# GRAPHICS
+
+## framebuffer
+
+*directfb*
+fbset-udeb
+
+## X11
+
+*dbus*
+*gdk*
+*glib*
+*gtk*
+*x11*
+*xcb*
+*xkb*
+
+libcairo*
+libdrm*
+libepoxy*
+libexpat*
+libharfbuzz*
+libinput*
+libsdl*
+libpango*
+libpixman*
+libpng*
+libx*
+
+matchbox*
+xserver*
+
+## fonts
+
+fonts-*
+ttf-*
+fontconfig*
+libfreetype*
+libfontenc*
+
+# ACCESSIBILITY
+
+## AT
+
+at-spi*
+libatspi*
+libatk*
+
+## speakup
+
+*speak*
+
+## braille
+
+brltty*
+
+# NETWORK
+
+# inithooks/confconsole set up the network on first run
+# so there is no need to do that during installation
+
+## network setup during installation
+
+ethdetect
+netcfg*
+*nic*-modules-*
+ppp*
+
+## wireless
+
+libiw*
+wireless*
+wpasupplicant*
+rfkill-modules*
+
+## DHCP
+
+*dhcp*
+
+## misc network libs
+
+wget*
+libssl*
+libjson*
+ca-certificates*
+
+## ssh
+
+*openssh*
+
+# HARDWARE
+
+## "exotic" filesystems
+
+*btrfs*
+*f2fs*
+*fuse*
+*jfs*
+*reiserfs*
+*xfs*
+*nbd*
+
+## sound
+
+libasound*
+alsa-utils-*
+sound-modules-*
+
+## other hardware we don't need for installation
+
+i2c-modules-*
+firewire-core-modules-*
+mouse-modules-*
+
+## kernel modules for the older version, not sure why this is included at all
+
+*-modules-6.1.0-18-*
+
+## MISC
+
+## doesn't belong
+
+debian-ports-archive-keyring-udeb
+apt-cdrom-setup
+apt-mirror-setup
+apt-setup-udeb
+load-media
+media-retriever
+
+strace-*
+screen-*
+libselinux1-*
+console-setup-sun4-*
+console-setup-amiga-*
+console-setup-ataritt-*
+console-setup-freebsd-*
+console-setup-sun5-*
+libcrack2-*
+choose-mirror*
+tzsetup-*
+clock-setup
+debootstrap-*
+cdebootstrap-*
+depthcharge-tools-installer*
+eatmydata-*
+libpcre*
+libthai*
+
+## copied from standard bookworm exclude file
+
+kernel-image-*
+
+archdetect
+hw-detect
+
+rootskel
+main-menu
+cdebconf-udeb
+udpkg
+anna
+di-utils
+di-utils-shell
+di-utils-reboot
+lowmemcheck
+busybox-udeb
+installation-locale
+localechooser
+iso-3166-udeb
+
+cdrom-detect
+cdrom-retriever
+load-cdrom
+cdrom-checker
+
+bogl-bterm-udeb
+di-utils-terminfo
+cdebconf-priority
+cdebconf-newt-udeb
+usb-discover
+preseed-common
+initrd-preseed
+file-preseed
+nano-udeb
+floppy-retriever
+libfribidi0-udeb
+libdebconfclient0-udeb
+libdebian-installer4-udeb
+libdebian-installer-extra4-udeb
+busybox-floppy-udeb
+rootskel-bootfloppy
+rootskel-gtk
+libpciaccess0-udeb
+cdebconf-gtk-terminal
+libvte9-udeb
+hdparm-udeb
+di-utils-exit-installer
+download-installer
+load-floppy
+iso-scan
+load-iso
+debian-edu-install-udeb
+debian-edu-profile-udeb
+debian-edu-archive-keyring-udeb
+ltsp-client-builder
+autopartkit
+module-init-tools-udeb
+env-preseed
+rescue-check
+cdebconf-text-udeb
+klibc-utils-udeb
+libklibc-udeb
+udev-udeb
+ai-choosers
+auto-install
+libslang2-udeb
+kbd-chooser
+kbd-udeb
+pwgen-udeb
+gnumach-udeb
+
+libcrypto*
+libevdev*
+rdate*
+net-retriever
+ndisc6-udeb
+rdnssd-udeb
+network-console
+
+*kickseed*
+
+kexec-tools
+libvte*
+haveged*
+network-preseed
+
+*gpg*
+libgail*
+libudev*
+

@@ -1,0 +1,23 @@
+#!/bin/bash -ex
+
+# temporary hack until we can migrate to full lb build
+# this wastes some machine effort but saves tons of human effort
+
+# borrow tkl chain & gfxboot modules
+cp ../../build/cdroot/isolinux/{chain,gfxboot}.c32 isolinux/
+
+# hack bootloader theme to show tkl splash
+sed -i 's/splash800x600.png/splash.png/' boot/grub/live-theme/theme.txt
+rm -f isolinux/splash800x600.png
+
+# don't need any of this
+rm -rf live/initrd.img-* live/vmlinuz-* live/firmware live/filesystem.*
+
+# clean up extra pool packages
+find pool -type f \! \( -name '*efi*' -o -name 'grub*' -o -name 'mokutil*' -o -name 'shim-*' -o -name 'os-prober*' \) -delete
+find pool -type d -empty -delete
+apt-ftparchive packages pool/main > dists/bookworm/main/binary-amd64/Packages
+gzip -9 -c dists/bookworm/main/binary-amd64/Packages > dists/bookworm/main/binary-amd64/Packages.gz
+
+# replace lb-built filesystem with ours
+cp ../../build/cdroot/live/10root.squashfs live/filesystem.squashfs

@@ -1,0 +1,59 @@
+#!/bin/bash -ex
+
+if ! [[ -e ../build/cdroot/live/10root.squashfs ]]; then
+    echo "build 10root.squashfs with fab via 'make' first"
+    exit 1
+fi
+
+if ! command -v apt-ftparchive; then
+    echo "apt-ftparchive doesn't seem to exist -- install it first"
+    exit 1
+fi
+
+APP="$(basename "$(pwd)")"
+
+TURNKEY_VERSION="$(cat /etc/turnkey_version)"
+CODENAME="${CODENAME:-$(echo "$TURNKEY_VERSION" | cut -d'-' -f4)}"
+
+if [ -n "${APT_HTTP_PROXY}" ]; then
+    # lb cache is only partial, this speeds up the build a lot
+    set -- --apt-http-proxy "${APT_HTTP_PROXY}" "$@"
+else
+    echo 'Consider setting $APT_HTTP_PROXY to speed up rebuilds.'
+fi
+
+mkdir -p logs
+
+lb config noauto \
+    --distribution "$CODENAME" \
+    --apt-indices false \
+    --apt-recommends false \
+    --binary-image iso-hybrid \
+    --cache true \
+    --cache-indices true \
+    --cache-stages 'bootstrap,chroot,rootfs' \
+    --cache-packages true \
+    --checksums none \
+    --chroot-filesystem squashfs \
+    --chroot-squashfs-compression-type lz4 \
+    --compression xz \
+    --debian-installer live \
+    --debian-installer-gui false \
+    --debootstrap-options '--variant=minbase' \
+    --memtest none \
+    --gzip-options '--best' \
+    --image-name "turnkey-$APP" \
+    --iso-volume "turnkey-$APP" \
+    --iso-application "TKLive" \
+    --iso-preparer "$TURNKEY_VERSION" \
+    --iso-publisher 'TurnKey Linux; https://turnkeylinux.org; admin@turnkeylinux.org' \
+    --zsync false \
+    --loadlin false \
+    --win32-loader false \
+    --uefi-secure-boot auto \
+    --firmware-chroot false \
+    --firmware-binary false \
+    --verbose \
+    --debug \
+    --clean \
+    "$@"
