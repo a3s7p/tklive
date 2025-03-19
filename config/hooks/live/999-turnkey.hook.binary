@@ -19,5 +19,11 @@ find pool -type d -empty -delete
 apt-ftparchive packages pool/main > dists/bookworm/main/binary-amd64/Packages
 gzip -9 -c dists/bookworm/main/binary-amd64/Packages > dists/bookworm/main/binary-amd64/Packages.gz
 
-# replace lb-built filesystem with ours
+# replace lb-built filesystem with ours 
 cp ../../build/cdroot/live/10root.squashfs live/filesystem.squashfs
+
+# clean up the postfix sockets
+cd live
+unsquashfs -excludes filesystem.squashfs '/var/spool/postfix/private/*' '/var/spool/postfix/public/*'
+mksquashfs squashfs-root filesystem.squashfs -no-sparse
+rm -rf squashfs-root
