@@ -25,5 +25,5 @@ cp ../../build/cdroot/live/10root.squashfs live/filesystem.squashfs
 # clean up the postfix sockets
 cd live
 unsquashfs -excludes filesystem.squashfs '/var/spool/postfix/private/*' '/var/spool/postfix/public/*'
-mksquashfs squashfs-root filesystem.squashfs -no-sparse
+mksquashfs squashfs-root filesystem.squashfs -no-sparse -noappend
 rm -rf squashfs-root
